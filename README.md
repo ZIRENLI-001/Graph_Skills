@@ -176,30 +176,51 @@ skills/kaggle-competition/
 
 ---
 
-## 🔗 技能链路
+## 🔗 技能知识图谱
 
 ```mermaid
-graph LR
-    A["🔧 ms-swift<br/>Model Trainer<br/><i>SFT / DPO 基座微调</i>"] --> B["🧮 verl<br/>RL Trainer<br/><i>PPO / GRPO RL 对齐</i>"]
-    B --> C["🤖 Agent Lightning<br/>Trainer<br/><i>Agent 端到端 RL</i>"]
-    A --> D["🏆 Kaggle<br/>Competition<br/><i>竞赛实战验证</i>"]
-    B --> D
-    C --> D
+graph TB
+    %% 中心节点
+    CENTER(("🧠<br/>Graph Skills<br/>AI Agent 研发"))
 
-    style A fill:#4285f4,stroke:#333,color:#fff
-    style B fill:#ea4335,stroke:#333,color:#fff
-    style C fill:#9333ea,stroke:#333,color:#fff
-    style D fill:#20beff,stroke:#333,color:#fff
+    %% 四个技能节点
+    SWIFT["🔧 ms-swift Model Trainer<br/>━━━━━━━━━━━━━━━<br/>SFT · DPO · GRPO<br/>600+ LLMs · 300+ MLLMs"]
+    VERL["🧮 verl RL Trainer<br/>━━━━━━━━━━━━━━━<br/>PPO · GRPO · DAPO<br/>Ray 分布式 · 671B 扩展"]
+    AGENT["🤖 Agent Lightning Trainer<br/>━━━━━━━━━━━━━━━<br/>APO · Tinker · Agent RL<br/>多框架兼容 · 零代码接入"]
+    KAGGLE["🏆 Kaggle Competition<br/>━━━━━━━━━━━━━━━<br/>AIMO · ARC · Konwinski<br/>特征工程 · Stacking · TIR"]
+
+    %% 中心连接
+    CENTER --- SWIFT
+    CENTER --- VERL
+    CENTER --- AGENT
+    CENTER --- KAGGLE
+
+    %% 技能间关联（双向/单向）
+    SWIFT -- "LoRA/QLoRA 微调基座" --> VERL
+    SWIFT -- "模型蒸馏/量化" --> KAGGLE
+    VERL -- "RL 训练后的模型" --> AGENT
+    VERL -- "GRPO/PPO 对齐模型" --> KAGGLE
+    AGENT -- "Agent 系统参赛" --> KAGGLE
+    SWIFT -. "SFT 数据 ↔ Agent 轨迹" .-> AGENT
+
+    %% 样式
+    style CENTER fill:#1a1a2e,stroke:#e94560,color:#fff,stroke-width:3px
+    style SWIFT fill:#4285f4,stroke:#333,color:#fff,stroke-width:2px
+    style VERL fill:#ea4335,stroke:#333,color:#fff,stroke-width:2px
+    style AGENT fill:#9333ea,stroke:#333,color:#fff,stroke-width:2px
+    style KAGGLE fill:#20beff,stroke:#333,color:#fff,stroke-width:2px
 ```
 
-**典型工作流**：
+**技能间的关联关系**：
 
-| 阶段 | 技能 | 目标 |
-|------|------|------|
-| 1️⃣ 基座微调 | **ms-swift** | SFT/DPO 微调 → 获得领域基础能力 |
-| 2️⃣ RL 对齐 | **verl** | GRPO/PPO 强化学习 → 提升推理和对齐能力 |
-| 3️⃣ Agent 训练 | **Agent Lightning** | 嵌入 Agent 系统端到端 RL → 工具使用和多步推理能力 |
-| 4️⃣ 实战验证 | **Kaggle Competition** | 竞赛中验证迭代 → 约束条件下的实战表现 |
+| 关系 | 说明 | 场景示例 |
+|------|------|---------|
+| 🔧→🧮 **微调 → RL** | ms-swift SFT/DPO 输出的模型作为 verl RL 训练的起点 | Qwen3 先 SFT 再 GRPO 提升数学推理 |
+| 🧮→🤖 **RL → Agent** | verl 对齐后的模型嵌入 Agent Lightning 做端到端训练 | RL 模型 + 工具调用能力训练 |
+| 🔧↔🤖 **微调 ↔ Agent** | Agent 轨迹回收为 SFT 数据；SFT 模型作为 Agent 骨干 | Agent 自我进化循环 |
+| 🔧→🏆 **微调 → 竞赛** | 微调/蒸馏/量化后的模型直接用于竞赛推理 | AIMO: QLoRA + FP8 量化参赛 |
+| 🧮→🏆 **RL → 竞赛** | GRPO/PPO 对齐模型用于数学/代码竞赛 | AIMO2: OpenMath-Nemotron-14B |
+| 🤖→🏆 **Agent → 竞赛** | 完整 Agent 系统参加 Agent 类竞赛 | Konwinski Prize: 代码修复 Agent |
 
 ---
 
